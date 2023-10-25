@@ -160,6 +160,12 @@ func TestValidateStageTransisions(t *testing.T) {
 				{utils.ConditionTypes.UpgradeInProgress, metav1.ConditionFalse},
 			},
 			expected: true,
+			expectedConditions: []ExpectedCondition{{
+				utils.ConditionTypes.RollbackInProgress,
+				utils.ConditionReasons.InProgress,
+				metav1.ConditionTrue,
+				"In progress",
+			}},
 		},
 		{
 			name:  "rollback when upgrade completed",
@@ -169,12 +175,24 @@ func TestValidateStageTransisions(t *testing.T) {
 				{utils.ConditionTypes.UpgradeInProgress, metav1.ConditionTrue},
 			},
 			expected: true,
+			expectedConditions: []ExpectedCondition{{
+				utils.ConditionTypes.RollbackInProgress,
+				utils.ConditionReasons.InProgress,
+				metav1.ConditionTrue,
+				"In progress",
+			}},
 		},
 		{
 			name:       "rollback when upgrade in progress",
 			stage:      ranv1alpha1.Stages.Rollback,
 			conditions: []ConditionTypeAndStatus{{utils.ConditionTypes.UpgradeInProgress, metav1.ConditionTrue}},
 			expected:   true,
+			expectedConditions: []ExpectedCondition{{
+				utils.ConditionTypes.RollbackInProgress,
+				utils.ConditionReasons.InProgress,
+				metav1.ConditionTrue,
+				"In progress",
+			}},
 		},
 		{
 			name:       "rollback without upgrade in progress",
