@@ -32,12 +32,12 @@ import (
 
 	"github.com/openshift-kni/lifecycle-agent/internal/common"
 
+	"github.com/google/go-cmp/cmp"
 	"github.com/stretchr/testify/assert"
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/util/diff"
 )
 
 func init() {
@@ -281,7 +281,7 @@ func TestRenderJob(t *testing.T) {
 				assert.True(t, reflect.DeepEqual(expectedJob.Spec, renderedJob.Spec), "Job specs are not equivalent")
 				// Compare the two Job specs for equivalence
 				if !reflect.DeepEqual(expectedJob.Spec, renderedJob.Spec) {
-					diff := diff.ObjectDiff(expectedJob.Spec, renderedJob.Spec)
+					diff := cmp.Diff(expectedJob.Spec, renderedJob.Spec)
 					t.Errorf("Job specs are not equivalent. Difference:\n%s", diff)
 				}
 			}

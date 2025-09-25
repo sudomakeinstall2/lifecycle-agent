@@ -178,3 +178,5 @@ require (
 // dependency in your project - it is recommended to use replace to pin the
 // version to the last one with the old import URL:"
 replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.16
+
+exclude sigs.k8s.io/structured-merge-diff/v6 v6.3.0
